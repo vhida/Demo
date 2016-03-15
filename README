@@ -1,0 +1,13 @@
+Disclaimer: this is to demo RESTful Web Service
+
+1, Embeded tomcat and in-memory database hsqldb are used.
+2, java version is 1.8
+3, I) run as a standalone application by
+        a). build the project, using "mvn clean install"
+        b). run by "java -jar path/Sample-1.0-SNAPSHOT.jar"
+        cI. stop by "kill -9 <pid>". get pid by "jps -lv |grep Sample"
+   II) run the source code (Application class as entry point) in an IDE,
+       intellij for instance.
+4, test code is omitted as the scenario is simple.
+5, for Part 1, duplicate user are not to be saved.
+   for Part 2, empty keyword not allowed as per requirement.

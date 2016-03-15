@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html><head>
+    <title>Tremor Video Sample Search Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    function send() {
+        var kw = $("#keyword").val();
+        $("#message").html("");
+        $("#placeholder").html('searching...');
+
+        $.ajax({
+            url: "/search",
+            type: 'post',
+            dataType: 'json',
+            data: "keyword="+kw,
+            beforeSend:function(xhr){
+                if(kw.keyword == ''){
+                    xhr.abort();
+                    $("#placeholder").html("");
+                    $("#message").html("please input search keyword")
+                }
+
+            },
+             success: function (data) {
+                if(data.length==0){
+                    $('#placeholder').html("No Result");
+                }else{
+                $('#placeholder').html("");
+                $.each(data,function(index,value){
+                    $('#placeholder').append("<p>"+data[index].firstName + " " + data[index].lastName+" </p>")
+                    });
+                }
+             },
+            error: function(xhr) { // if error occured
+               $("#placeholder").html("");
+               $("#placeholder").html(xhr.responseJSON.message);
+            }
+        });
+    }
+</script>
+</head>
+<body>
+<div class="input">
+    <input type="text" id="keyword">
+    <label id="message"></label>
+</div>
+<div>
+    <button id="search" onclick="send()">Search</button>
+    <label id="placeholder"></label>
+</div>
+
+
+</body></html>

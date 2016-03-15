@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html><head>
+    <title>Tremor Video Sample Save Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    function send() {
+
+        var user = {
+            lastName: $("#lname").val(),
+            firstName:$("#fname").val(),
+
+        }
+        $("#lmessage").html("");
+        $("#fmessage").html("");
+        $("#placeholder").html('sending..');
+
+        $.ajax({
+            url: "/",
+            type: 'post',
+            dataType: 'json',
+            data: JSON.stringify(user),
+            beforeSend:function(xhr){
+                if(user.firstName == ''){
+                    xhr.abort();
+                    $("#placeholder").html("");
+                    $("#fmessage").html("First Name is mandatory")
+                }
+                if(user.lastName == ''){
+                    xhr.abort();
+                    $("#placeholder").html("");
+                    $("#lmessage").html("Last Name is mandatory")
+                }
+                xhr.setRequestHeader("Accept", "application/json");
+                xhr.setRequestHeader("Content-Type", "application/json");
+            },
+            success: function (data) {
+                $("#placeholder").html("User data saved");
+            },
+            error: function(xhr) { // if error occured
+                $("#placeholder").html("");
+                $("#placeholder").html(xhr.responseJSON.message);
+            }
+        });
+    }
+</script>
+</head>
+<body>
+<div class="input">
+    <label>First Name</label>
+    <input type="text" id="fname">
+    <label id="fmessage"></label>
+</div>
+<div class="input">
+    <label>Last Name</label>
+    <input type="text" id="lname">
+    <label id="lmessage"></label>
+</div>
+<div>
+    <button id="save"  onclick="send()">Save</button>
+    <label id="placeholder"></label>
+</div>
+
+
+
+
+</body></html>
